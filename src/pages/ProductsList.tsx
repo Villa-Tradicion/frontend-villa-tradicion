@@ -121,7 +121,7 @@ const ProductsList = () => {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>ID</TableHead>
+                    {/* <TableHead>ID</TableHead> */}
                     <TableHead>Nombre</TableHead>
                     <TableHead>Precio</TableHead>
                     <TableHead>Estado</TableHead>
@@ -132,7 +132,7 @@ const ProductsList = () => {
                 <TableBody>
                   {filteredProducts.map((product) => (
                     <TableRow key={product.id}>
-                      <TableCell>{product.id}</TableCell>
+                      {/* <TableCell>{product.id}</TableCell> */}
                       <TableCell>
                         <div className="flex items-center space-x-2">
                           {product.imageUrl && (
