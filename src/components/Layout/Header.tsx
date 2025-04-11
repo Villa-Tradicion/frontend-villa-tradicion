@@ -12,7 +12,8 @@ export const Header = () => {
     if (path === "/products") return "Productos";
     if (path === "/products/new") return "Registrar Producto";
     if (path.startsWith("/products/edit/")) return "Editar Producto";
-    
+
+    if (path === "/register-category") return "Registrar Categoria";
     return "Admin Panel";
   };
 

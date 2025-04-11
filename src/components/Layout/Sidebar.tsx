@@ -1,6 +1,6 @@
 
 import { NavLink } from "react-router-dom";
-import { Home, Package, PlusCircle } from "lucide-react";
+import { FolderPlus, Home, Package, PlusCircle } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 export const Sidebar = () => {
@@ -19,6 +19,11 @@ export const Sidebar = () => {
       title: "Registrar Producto", 
       path: "/products/new", 
       icon: <PlusCircle className="h-5 w-5" /> 
+    },
+    { 
+      title: "Registrar Categoria", 
+      path: "/register-category", 
+      icon: <FolderPlus  className="h-5 w-5" /> 
     }
   ];
 

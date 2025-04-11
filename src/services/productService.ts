@@ -17,8 +17,6 @@ export const getProducts = async (): Promise<Product[]> => {
     return await response.json();
   } catch (error) {
     console.error("Error fetching products:", error);
-    // Return mock data as fallback if API fails
-    // return getMockProducts();
   }
 };
 
@@ -28,13 +26,6 @@ export const getCategory = async () => {
     return getCategories()
   } catch (error) {
     console.error("Error fetching categories:", error);
-    // Return mock categories as fallback
-    // return [
-    //   { id: 1, name: "Electrónicos" },
-    //   { id: 2, name: "Ropa" },
-    //   { id: 3, name: "Hogar" },
-    //   { id: 4, name: "Juguetes" }
-    // ];
   }
 };
 
@@ -50,8 +41,6 @@ export const getProductById = async (id: number): Promise<Product | undefined> =
     return await response.json();
   } catch (error) {
     console.error(`Error fetching product ${id}:`, error);
-    // Return mock product as fallback
-    // return getMockProducts().find(p => p.id === id);
   }
 };
 
@@ -71,8 +60,6 @@ export const createProduct = async (productData: ProductFormData): Promise<Produ
     return await response.json();
   } catch (error) {
     console.error("Error creating product:", error);
-    // Create mock product as fallback
-    // return createMockProduct(productData);
   }
 };
 
@@ -92,8 +79,6 @@ export const updateProduct = async (id: number, productData: ProductFormData): P
     return await response.json();
   } catch (error) {
     console.error(`Error updating product ${id}:`, error);
-    // Update mock product as fallback
-    // return updateMockProduct(id, productData);
   }
 };
 
@@ -109,7 +94,5 @@ export const deleteProduct = async (id: number): Promise<void> => {
     }
   } catch (error) {
     console.error(`Error deleting product ${id}:`, error);
-    // Delete from mock data as fallback
-    // deleteMockProduct(id);
   }
 };

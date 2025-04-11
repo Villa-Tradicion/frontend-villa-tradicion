@@ -2,17 +2,17 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
-import { 
-  Table, 
-  TableBody, 
-  TableCell, 
-  TableHead, 
-  TableHeader, 
-  TableRow 
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableHead,
+  TableHeader,
+  TableRow
 } from "@/components/ui/table";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { 
+import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
@@ -21,23 +21,35 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Pencil, PlusCircle, MoreHorizontal, Trash2, Eye } from "lucide-react";
 import { deleteProduct, getProducts } from "@/services/productService";
-import { Product } from "@/types/Product";
 import { useToast } from "@/hooks/use-toast";
+import { getCategories } from "@/services/categoryService";
 
 const ProductsList = () => {
   const navigate = useNavigate();
   const { toast } = useToast();
+
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: getCategories
+  });
+  const [selectedCategoryId, setSelectedCategoryId] = useState<number | null>(null);
+
   
   // Fetch products with React Query
-  const { 
-    data: products = [], 
-    isLoading, 
-    isError, 
-    refetch 
+  const {
+    data: products = [],
+    isLoading,
+    isError,
+    refetch
   } = useQuery({
     queryKey: ['products'],
     queryFn: getProducts
   });
+
+  const filteredProducts = selectedCategoryId
+  ? products.filter((product) => product.categoryId === selectedCategoryId)
+  : products;
+
 
   // Handle product deletion
   const handleDelete = async (id: number) => {
@@ -66,10 +78,26 @@ const ProductsList = () => {
           Nuevo Producto
         </Button>
       </div>
+      <div className="flex justify-end mb-4">
+        <select
+          className="border border-gray-300 rounded px-3 py-2 text-sm"
+          value={selectedCategoryId ?? ""}
+          onChange={(e) =>
+            setSelectedCategoryId(e.target.value ? Number(e.target.value) : null)
+          }
+        >
+          <option value="">Todas las categorías</option>
+          {categories.map((category) => (
+            <option key={category.id} value={category.id}>
+              {category.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>Productos ({products.length})</CardTitle>
+          <CardTitle>Productos ({filteredProducts.length})</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
@@ -102,15 +130,15 @@ const ProductsList = () => {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {products.map((product) => (
+                  {filteredProducts.map((product) => (
                     <TableRow key={product.id}>
                       <TableCell>{product.id}</TableCell>
                       <TableCell>
                         <div className="flex items-center space-x-2">
                           {product.imageUrl && (
-                            <img 
-                              src={product.imageUrl} 
-                              alt={product.name} 
+                            <img
+                              src={product.imageUrl}
+                              alt={product.name}
                               className="h-8 w-8 rounded-full object-cover"
                             />
                           )}
@@ -123,7 +151,7 @@ const ProductsList = () => {
                           {product.available ? "Disponible" : "No disponible"}
                         </Badge>
                       </TableCell>
-                      <TableCell>{product.categoryId}</TableCell>
+                      <TableCell>{product.category.name}</TableCell>
                       <TableCell className="text-right">
                         <DropdownMenu>
                           <DropdownMenuTrigger asChild>
@@ -133,13 +161,13 @@ const ProductsList = () => {
                             </Button>
                           </DropdownMenuTrigger>
                           <DropdownMenuContent align="end">
-                            <DropdownMenuItem 
+                            <DropdownMenuItem
                               onClick={() => navigate(`/products/edit/${product.id}`)}
                             >
                               <Pencil className="mr-2 h-4 w-4" />
                               Editar
                             </DropdownMenuItem>
-                            <DropdownMenuItem 
+                            <DropdownMenuItem
                               className="text-red-600"
                               onClick={() => handleDelete(product.id)}
                             >
