@@ -1,5 +1,5 @@
 
-import { Category } from "@/types/Category";
+import { Category, CategoryFormData } from "@/types/Category";
 
 // API base URL
 const baseUrl = "http://localhost:3001/api";
@@ -20,11 +20,20 @@ export const getCategories = async (): Promise<Category[]> => {
     // return getMockCategories();
   }
 };
+// Create Category
+export const createCategory = async (categoryData: CategoryFormData): Promise<Category> => {
+  const response = await fetch(`${baseUrl}/category`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify(categoryData),
+  });
 
-// Mock data for fallback
-// const getMockCategories = (): Category[] => [
-//   { id: 1, name: "Electrónicos" },
-//   { id: 2, name: "Ropa" },
-//   { id: 3, name: "Hogar" },
-//   { id: 4, name: "Juguetes" }
-// ];
+  if (!response.ok) {
+    const errorBody = await response.json();
+    const error: any = new Error(errorBody.message || 'Error al crear categoría');
+    error.status = response.status;
+    throw error; // 👈 relanza el error personalizado
+  }
+
+  return await response.json();
+};

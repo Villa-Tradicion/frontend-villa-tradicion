@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import ProductsList from "./pages/ProductsList";
 import ProductForm from "./pages/ProductForm";
 import NotFound from "./pages/NotFound";
+import CategoryForm from "./pages/CategoryForm";
 
 const queryClient = new QueryClient();
 
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="products" element={<ProductsList />} />
             <Route path="products/new" element={<ProductForm />} />
             <Route path="products/edit/:id" element={<ProductForm />} />
+            <Route path="register-category" element={<CategoryForm />} />
           </Route>
           <Route path="*" element={<NotFound />} />
         </Routes>

@@ -1,3 +1,4 @@
+import { Category } from "./Category";
 
 export interface Product {
   id: number;
@@ -12,7 +13,7 @@ export interface Product {
   materials?: string[];
   availableColors?: string[];
   imageUrl?: string;
-  category?: string; // Simplified for now, will be replaced with categoryId
+  category?: Category; // Simplified for now, will be replaced with categoryId
   categoryId?: number;
   createdAt: string;
   updatedAt: string;
